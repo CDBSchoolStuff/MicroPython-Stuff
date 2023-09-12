@@ -13,7 +13,7 @@ while True:
     # hvis knap værdi går fra 1 (True) til 0 (False)
     if first == 1 and second == 0:
         print("Knap trykket")
-        led1.value(not led1.value())
+        led1.value(not led1.value()) # Eneste ændret linje. led1's value bliver sat til dens modsatte værdi. (Hvis den er True, bliver den False og omvendt.)
 
     # Tjekker om knap slippes
     # hvis knap værdi går fra 0 (False) til (True)
