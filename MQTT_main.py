@@ -5,8 +5,7 @@ import umqtt_robust2 as mqtt
 while True:
     try:
         # Indskriv egen kode her:
-        if mqtt.besked == "alive?":
-            mqtt.web_print("ESP32 still alive!")
+        
         
         if len(mqtt.besked) != 0: # Her nulstilles indkommende beskeder
             mqtt.besked = ""

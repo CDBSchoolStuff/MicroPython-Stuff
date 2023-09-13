@@ -9,6 +9,9 @@ from time import ticks_ms
 print("Forbinder til internettet...")
 
 
+besked = ""
+
+
 def sync_with_adafruitIO(): 
     # haandtere fejl i forbindelsen og hvor ofte den skal forbinde igen
     if c.is_conn_issue():
@@ -51,8 +54,6 @@ while not wifi.isconnected() and attempt_count < MAX_ATTEMPTS:
 if attempt_count == MAX_ATTEMPTS:
     print('Kunne ikke forbinde til WiFi')
     sys.exit()
-    
-besked = ""
 
 def sub_cb(topic, msg, retained, duplicate):
     #print((topic, msg, retained, duplicate))
