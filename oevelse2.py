@@ -1,28 +1,16 @@
-# Øvelse 1 Tænd en LED via Adafruit IO
-
 import umqtt_robust2 as mqtt
-from machine import Pin
+from simpelt_buzzer_program import buzzer
 
 # Her kan i placere globale varibaler, og instanser af klasser
-
-RED_PIN = 26
-led1 = Pin(RED_PIN, Pin.OUT)
-led1.off()
-
 
 while True:
     try:
         # Indskriv egen kode her:
-        if mqtt.besked == "alive?":
-            mqtt.web_print("ESP32 still alive!")
-        
-        if mqtt.besked == "led_1":
-            print("Red LED: ON")
-            led1.on()
+        if mqtt.besked == "buzz_1":
+            buzzer(pwm_buzz, 262, 0.2, 0.2)
 
-        if mqtt.besked == "led_0":
-            print("Red LED: OFF")
-            led1.off()
+        if mqtt.besked == "buzz_2":
+            buzzer(pwm_buzz, 0, 0, 0)
 
         if len(mqtt.besked) != 0: # Her nulstilles indkommende beskeder
             mqtt.besked = ""
