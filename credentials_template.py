@@ -7,6 +7,9 @@
 # men der skal oprettes en feed med samme navn på adafruit.io
 
 credentials = {
+    #'ssid' : 'KEA_Starlink',
+    #'password' : 'KeaStarlink2023',
+    
     'ssid' : 'DIT WIFI HOTSPOT/ACCESS POINT NAVN',
     'password' : 'DIT WIFI HOTSPOT/ACCESS POINT PASSWORD',
     'ADAFRUIT_IO_URL' : b'io.adafruit.com',
