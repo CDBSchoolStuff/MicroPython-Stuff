@@ -6,7 +6,6 @@ from time import sleep
 # Her kan i placere globale varibaler, og instanser af klasser
 BUZZ_PIN = 26
 buzzer = PWM(Pin(BUZZ_PIN, Pin.OUT))
-buzzer.duty(0)
 
 print("Kører Øvelse2")
 
@@ -17,13 +16,43 @@ while True:
         if mqtt.besked == "buzz_1":
             print("BUZZING")
             buzzer.duty(512)
-            buzzer.freq(500)
+            buzzer.freq(329)
             sleep(0.2)
             buzzer.duty(0)
             sleep(0.1)
 
             buzzer.duty(512)
-            buzzer.freq(1300)
+            buzzer.freq(659)
+            sleep(0.4)
+            buzzer.duty(0)
+
+            buzzer.duty(512)
+            buzzer.freq(783)
+            sleep(0.4)
+            buzzer.duty(0)
+
+            buzzer.duty(512)
+            buzzer.freq(739)
+            sleep(0.4)
+            buzzer.duty(0)
+
+            buzzer.duty(512)
+            buzzer.freq(392)
+            sleep(0.4)
+            buzzer.duty(0)
+
+            buzzer.duty(512)
+            buzzer.freq(659)
+            sleep(0.4)
+            buzzer.duty(0)
+
+            buzzer.duty(512)
+            buzzer.freq(783)
+            sleep(0.4)
+            buzzer.duty(0)
+
+            buzzer.duty(512)
+            buzzer.freq(880)
             sleep(0.4)
             buzzer.duty(0)
 

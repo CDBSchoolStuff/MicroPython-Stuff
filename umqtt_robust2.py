@@ -10,6 +10,8 @@ print("Forbinder til internettet...")
 
 besked = ""
 
+c = ""
+
 def sync_with_adafruitIO(): 
     # haandtere fejl i forbindelsen og hvor ofte den skal forbinde igen
     if c.is_conn_issue():
