@@ -1,26 +1,28 @@
+# Importerer påkrævede klasser/biblioteker.
 import umqtt_robust2 as mqtt
 from machine import Pin
 from machine import PWM
 from time import sleep
 
-# Her kan i placere globale varibaler, og instanser af klasser
+# Definerer variabler sådan så vi kan bruge buzzeren.
 BUZZ_PIN = 26
-buzzer = PWM(Pin(BUZZ_PIN, Pin.OUT))
+buzzer = PWM(Pin(BUZZ_PIN, Pin.OUT)) # "Pin.OUT" betyder at vi sender et output.
 buzzer.duty(0)
 
+# Simpel print funktion til at tjekke om programmet bliver eksekveret.
 print("Kører Øvelse2")
 
-
+# Uendeligt loop (Sådan så programmet bliver ved med at køre)
 while True:
     try:
         # Indskriv egen kode her:
         if mqtt.besked == "buzz_1":
-            print("BUZZING")
-            buzzer.duty(512)
-            buzzer.freq(500)
-            sleep(0.2)
-            buzzer.duty(0)
-            sleep(0.1)
+            print("BUZZING") # Printer til terminalen for at tjekke om koden kører.
+            buzzer.duty(512) # Sætter til 50% styrke. [Duty cycle is between 0 (all off) and 1023 (all on), with 512 being a 50%]
+            buzzer.freq(500) # Sætter frekvensen. Når der er tale om en buzzer, ville dette være lyd frekvens.
+            sleep(0.2) # Vent 0.2 sekunder
+            buzzer.duty(0) # Sætter til 0% styrke.
+            sleep(0.1) # Vent 0.1 sekunder
 
             buzzer.duty(512)
             buzzer.freq(1300)
