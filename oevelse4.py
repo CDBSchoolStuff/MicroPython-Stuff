@@ -7,6 +7,7 @@ from time import sleep
 # Definerer variabler sådan så vi kan bruge buzzeren.
 BUZZ_PIN = 26
 buzzer = PWM(Pin(BUZZ_PIN, Pin.OUT)) # "Pin.OUT" betyder at vi sender et output.
+buzzer.duty(0) # Startes med at være slukket (så den ikke hyler)
 
 # Simpel print funktion til at tjekke om programmet bliver eksekveret.
 print("Kører Øvelse2")
