@@ -1,4 +1,4 @@
-from machine import I2C, Pin, PWM
+from machine import Pin, PWM
 from gpio_lcd import GpioLcd
 import sys
 

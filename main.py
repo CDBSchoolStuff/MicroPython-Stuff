@@ -88,16 +88,20 @@ neopixel = NeoPixel(Pin(PIXEL_PIN, Pin.OUT), PIXEL_NUMBER) # create NeoPixel ins
 # ---------- Øvelse 3.4 ----------
 from machine import PWM
 
-BUZZER_PIN = 25
+BUZZER_PIN = 12
 buzzer = PWM(Pin(BUZZER_PIN, Pin.OUT))
-buzzer.off()
+buzzer.duty(0)
 
-def buzz(frequency, sound_duration, silence_duration):
-    buzzer.duty(512)
+def buzz(frequency, sound_duration, silence_duration, buzz_strength):
+    strength = int((512 / 100) * buzz_strength)
+    print("Buzz strength: ", strength)
+    buzzer.duty(strength)
     buzzer.freq(frequency)
     print("Buzzing!")
+    frequency_animation(frequency)
     sleep(sound_duration)
     buzzer.duty(0)
+    clear()
     print("Done buzzing...")
     sleep(silence_duration)
 
@@ -110,11 +114,26 @@ def set_color(red, green, blue, pixels):
         neopixel[number] = (red, green, blue) # Her sættes RGB værdierne for en pixel. "number" her hentyder til en pixel i listen "pixels".
     neopixel.write() # Skriver værdi til pixel.
 
-set_color(0, 50, 0, [0, 1, 2]) # Sætter pixel 1, 2 og 3 til grøn.
-buzz(368, 1, 0.2)
+# set_color(0, 50, 0, [0, 1, 2]) # Sætter pixel 1, 2 og 3 til grøn.
 
-#while True:
-#    if buzz
+# Funktion som er til ansvar for at nulstille/slukke alle pixels.
+# Funktionen modtager ingen argumenter.
+def clear():
+    for number in range(PIXEL_NUMBER): # Itererer mellem alle pixels.
+        neopixel[number] = (0, 0, 0) # Sætter den nuværende pixel i iterationen til at have farvekoden "0,0,0" (Dette slukker for dem).
+        neopixel.write()
+
+def frequency_animation(tone_frequency):
+    print("Frequency:", tone_frequency)
+    if tone_frequency == 200:
+        print("Playing Animation 1")
+        set_color(50, 0, 0, [1,4,8,11])
+    elif tone_frequency == 300:
+        print("Playing Animation 2")
+        set_color(0, 50, 0, [2,6,10])
+
+buzz(200, 1, 0.2, 1)
+buzz(300, 1, 0.2, 1)
 
 
 # def hex_to_rgb(hex_color):
