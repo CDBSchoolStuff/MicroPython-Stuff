@@ -135,6 +135,9 @@ def frequency_animation(tone_frequency):
 buzz(200, 1, 0.2, 1)
 buzz(300, 1, 0.2, 1)
 
+# --------------------------------
+
+# ---------- Øvelse 3.5 ---------- IKKE FÆRDIG
 
 # def hex_to_rgb(hex_color):
 #     hex_color = hex_color.strip('#')
