@@ -26,9 +26,9 @@ def Print_LCD():
     lcd.clear()
     lcd.putstr("Programmering -")
     lcd.move_to(0, 1)
-    lcd.putstr("Lektion X:")    
+    lcd.putstr("Lektion 3:")    
     lcd.move_to(0, 2)
-    lcd.putstr("Emne")
+    lcd.putstr("Neopixel")
     #lcd.move_to(0, 3)
     #lcd.putstr("Something!")
 
