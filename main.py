@@ -1,6 +1,5 @@
 from neopixel import NeoPixel
 from machine import Pin
-import umqtt_robust2 as mqtt
 from time import sleep, sleep_ms
 
 PIXEL_NUMBER = 12 # number of pixels in the Neopixel ring
@@ -86,58 +85,114 @@ neopixel = NeoPixel(Pin(PIXEL_PIN, Pin.OUT), PIXEL_NUMBER) # create NeoPixel ins
 # --------------------------------
 
 # ---------- Øvelse 3.4 ----------
-from machine import PWM
+# from machine import PWM
 
-BUZZER_PIN = 12
-buzzer = PWM(Pin(BUZZER_PIN, Pin.OUT))
-buzzer.duty(0)
+# BUZZER_PIN = 12
+# buzzer = PWM(Pin(BUZZER_PIN, Pin.OUT))
+# buzzer.duty(0)
 
-def buzz(frequency, sound_duration, silence_duration, buzz_strength):
-    strength = int((512 / 100) * buzz_strength)
-    print("Buzz strength: ", strength)
-    buzzer.duty(strength)
-    buzzer.freq(frequency)
-    print("Buzzing!")
-    frequency_animation(frequency)
-    sleep(sound_duration)
-    buzzer.duty(0)
-    clear()
-    print("Done buzzing...")
-    sleep(silence_duration)
+# def buzz(frequency, sound_duration, silence_duration, buzz_strength):
+#     strength = int((512 / 100) * buzz_strength)
+#     print("Buzz strength: ", strength)
+#     buzzer.duty(strength)
+#     buzzer.freq(frequency)
+#     print("Buzzing!")
+#     frequency_animation(frequency)
+#     sleep(sound_duration)
+#     buzzer.duty(0)
+#     clear()
+#     print("Done buzzing...")
+#     sleep(silence_duration)
 
-'''
-Funktion som er ansvarlig for at sætte enkelte pixels farve. 
-Funktionen modtager 4 argumenter; red, green, blue og pixels. De første tre er til at bestemme farvekoden, og den sidste "pixels" er en liste over pixels som ønskes at blive ændret (Mellem 0 og 11 i dette tilfælde)
-'''
-def set_color(red, green, blue, pixels):
-    for number in pixels: # Itererer mellem hvert element i listen "pixels".
-        neopixel[number] = (red, green, blue) # Her sættes RGB værdierne for en pixel. "number" her hentyder til en pixel i listen "pixels".
-    neopixel.write() # Skriver værdi til pixel.
+# '''
+# Funktion som er ansvarlig for at sætte enkelte pixels farve. 
+# Funktionen modtager 4 argumenter; red, green, blue og pixels. De første tre er til at bestemme farvekoden, og den sidste "pixels" er en liste over pixels som ønskes at blive ændret (Mellem 0 og 11 i dette tilfælde)
+# '''
+# def set_color(red, green, blue, pixels):
+#     for number in pixels: # Itererer mellem hvert element i listen "pixels".
+#         neopixel[number] = (red, green, blue) # Her sættes RGB værdierne for en pixel. "number" her hentyder til en pixel i listen "pixels".
+#     neopixel.write() # Skriver værdi til pixel.
 
-# set_color(0, 50, 0, [0, 1, 2]) # Sætter pixel 1, 2 og 3 til grøn.
+# # set_color(0, 50, 0, [0, 1, 2]) # Sætter pixel 1, 2 og 3 til grøn.
 
-# Funktion som er til ansvar for at nulstille/slukke alle pixels.
-# Funktionen modtager ingen argumenter.
-def clear():
-    for number in range(PIXEL_NUMBER): # Itererer mellem alle pixels.
-        neopixel[number] = (0, 0, 0) # Sætter den nuværende pixel i iterationen til at have farvekoden "0,0,0" (Dette slukker for dem).
-        neopixel.write()
+# # Funktion som er til ansvar for at nulstille/slukke alle pixels.
+# # Funktionen modtager ingen argumenter.
+# def clear():
+#     for number in range(PIXEL_NUMBER): # Itererer mellem alle pixels.
+#         neopixel[number] = (0, 0, 0) # Sætter den nuværende pixel i iterationen til at have farvekoden "0,0,0" (Dette slukker for dem).
+#         neopixel.write()
 
-def frequency_animation(tone_frequency):
-    print("Frequency:", tone_frequency)
-    if tone_frequency == 200:
-        print("Playing Animation 1")
-        set_color(50, 0, 0, [1,4,8,11])
-    elif tone_frequency == 300:
-        print("Playing Animation 2")
-        set_color(0, 50, 0, [2,6,10])
+# def frequency_animation(tone_frequency):
+#     print("Frequency:", tone_frequency)
+#     if tone_frequency == 200:
+#         print("Playing Animation 1")
+#         set_color(50, 0, 0, [1,4,8,11])
+#     elif tone_frequency == 300:
+#         print("Playing Animation 2")
+#         set_color(0, 50, 0, [2,6,10])
 
-buzz(200, 1, 0.2, 1)
-buzz(300, 1, 0.2, 1)
+# buzz(200, 1, 0.2, 1)
+# buzz(300, 1, 0.2, 1)
 
 # --------------------------------
 
 # ---------- Øvelse 3.5 ---------- IKKE FÆRDIG
+
+import umqtt_robust2 as mqtt
+
+def fade_in_out(color, wait):
+    for i in range(0, 4 * 256, 8):
+        for number in range(PIXEL_NUMBER):
+            if (i // 256) % 2 == 0:
+                value = i & 0xff
+            else:
+                value = 255 - (i & 0xff)
+                if color == 'red':
+                    neopixel[number] = (value, 0, 0)
+                elif color == 'green':
+                    neopixel[number] = (0, value, 0)
+                elif color == 'blue':
+                    neopixel[number] = (0, 0, value)
+                elif color == 'purple':
+                    neopixel[number] = (value, 0, value)
+                elif color == 'yellow':
+                    neopixel[number] = (value, value, 0)
+                elif color == 'teal':
+                    neopixel[number] = (0, value, value)
+                elif color == 'white':
+                    neopixel[number] = (value, value, value)
+            neopixel.write()
+        sleep_ms(wait)
+
+while True:
+    try:
+        color = (0,0,0)
+
+        if "#" in mqtt.besked and len(mqtt.besked) == 7:
+            try:
+                rgb_tuple = hex_to_rgb(mqtt.besked)
+                print(f"RGB tuple: {rgb_tuple}")
+                set_color(rgb_tuple[0], rgb_tuple[1], rgb_tuple[2])
+            except:
+                print("Wrong hex value!")
+
+        if mqtt.besked == "anim_fade":
+            fade_in_out(mqtt.besked)
+
+        if len(mqtt.besked) != 0: # Her nulstilles indkommende beskeder
+            mqtt.besked = ""
+            
+        mqtt.sync_with_adafruitIO() # igangsæt at sende og modtage data med Adafruit IO             
+        #sleep(1) # Udkommentér denne og næste linje for at se visuelt output
+        #print(".", end = '') # printer et punktum til shell, uden et enter        
+    
+    except KeyboardInterrupt: # Stopper programmet når der trykkes Ctrl + c
+        print('Ctrl-C pressed...exiting')
+        mqtt.c.disconnect()
+        mqtt.sys.exit()
+
+# --------------------------------
+
 
 # def hex_to_rgb(hex_color):
 #     hex_color = hex_color.strip('#')
@@ -147,13 +202,11 @@ buzz(300, 1, 0.2, 1)
 #     return tuple(rgb_list)
 
 # while True:
-#     try:
-#         if "#" in mqtt.besked and len(mqtt.besked) == 7:
-#             try:
-#                 rgb_tuple = hex_to_rgb(mqtt.besked)
-#                 print(f"RGB tuple: {rgb_tuple}")
-#                 set_color(rgb_tuple[0], rgb_tuple[1], rgb_tuple[2])
-#             except:
-#                 print("Wrong hex value!")
-
-# --------------------------------
+    # try:
+        # if "#" in mqtt.besked and len(mqtt.besked) == 7:
+        #     try:
+        #         rgb_tuple = hex_to_rgb(mqtt.besked)
+        #         print(f"RGB tuple: {rgb_tuple}")
+        #         set_color(rgb_tuple[0], rgb_tuple[1], rgb_tuple[2])
+        #     except:
+        #         print("Wrong hex value!")

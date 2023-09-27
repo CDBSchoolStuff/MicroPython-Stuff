@@ -1,5 +1,5 @@
 import utime
-from umqtt_robust2 import MQTTClient
+from umqtt.robust2 import MQTTClient
 import sys
 import network
 import os
@@ -8,6 +8,9 @@ from time import sleep
 from time import ticks_ms
 print("Forbinder til internettet...")
 
+besked = ""
+
+c = ""
 
 def sync_with_adafruitIO(): 
     # haandtere fejl i forbindelsen og hvor ofte den skal forbinde igen
@@ -52,7 +55,6 @@ if attempt_count == MAX_ATTEMPTS:
     print('Kunne ikke forbinde til WiFi')
     sys.exit()
     
-besked = ""
 
 def sub_cb(topic, msg, retained, duplicate):
     #print((topic, msg, retained, duplicate))
@@ -118,4 +120,3 @@ if not c.connect(clean_session=False):
     
 # if not c.connect(clean_session=True):
 #     print("Forbundet!")
-

@@ -13,17 +13,28 @@ i2c = I2C(0, freq = 400000)
 
 eeprom = EEPROM_24xx64(i2c, 0x50)
 
+
+# Læser strenge fra EEPROM
+ssid = eeprom.read_string(1)
+password = eeprom.read_string(20)
+username = eeprom.read_string(40)
+key = eeprom.read_string(50)
+
+
+# Printer læste strenge.
+print("SSID:", ssid)
+print("PASSWORD:", password)
+print("USERNAME", username)
+print("KEY:", key)
+
 credentials = {
     #'ssid' : 'KEA_Starlink',
     #'password' : 'KeaStarlink2023',
-    
-    ssid_string = eeprom.read_string(1)
-    password_string = eeprom.read_string(100)
 
-    'ssid' : '%s' % ssid_string,
-    'password' : '%p' % password_string,
+    'ssid' : ssid,
+    'password' : password,
     'ADAFRUIT_IO_URL' : b'io.adafruit.com',
-    'ADAFRUIT_USERNAME' : b'DIT ADAFRUIT BRUGERNAVN',
-    'ADAFRUIT_IO_KEY' : b'DIN ADAFRUIT IO KEY',
+    'ADAFRUIT_USERNAME' : username,
+    'ADAFRUIT_IO_KEY' : key,
     'ADAFRUIT_IO_FEEDNAME' : b'ESP32feed'
     }
