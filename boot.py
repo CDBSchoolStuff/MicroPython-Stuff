@@ -19,11 +19,11 @@ def Print_LCD():
                   d4_pin=Pin(33), d5_pin=Pin(32), d6_pin=Pin(21), d7_pin=Pin(22),
                   num_lines=4, num_columns=20)
     lcd.clear()
-    lcd.putstr("Programmering -")
+    lcd.putstr("Indlejrede Systemer -")
     lcd.move_to(0, 1)
-    lcd.putstr("Lektion X:")    
+    lcd.putstr("Lektion 6:")    
     lcd.move_to(0, 2)
-    lcd.putstr("Emne")
+    lcd.putstr("I2C")
     #lcd.move_to(0, 3)
     #lcd.putstr("Something!")
 
