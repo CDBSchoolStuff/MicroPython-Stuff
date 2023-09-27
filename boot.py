@@ -1,7 +1,5 @@
-from machine import I2C, Pin, PWM
-import eeprom_24xx64
+from machine import Pin, PWM
 from gpio_lcd import GpioLcd
-
 
 #########################################################################
 # LCD KONTRAST CONFIGURATION
@@ -14,9 +12,6 @@ lcd_contrast.duty(contrast_level)
 
 #########################################################################
 # LCD KONTRAST CONFIGURATION SLUT
-
-i2c = I2C(0)
-e = eeprom_24xx64.EEPROM_24xx64(i2c)
 
 def Print_LCD():
     # Create the LCD object
@@ -33,3 +28,14 @@ def Print_LCD():
     #lcd.putstr("Something!")
 
 Print_LCD()
+
+
+# Ukommenter, hvis der arbejdes med MQTT
+# --------------------------------------
+
+# import sys # Ukommenter, hvis der arbejdes med MQTT
+
+# sys.path.reverse()
+# print("\n\n\nESP32 starter op")
+
+# --------------------------------------
