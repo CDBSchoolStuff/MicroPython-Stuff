@@ -1,45 +1,24 @@
 from machine import I2C
-from time import sleep_ms
-# from device_scanner import i2c_scanner # Hjemmelavet bibliotek
+from eeprom_24xx64 import EEPROM_24xx64
 
-
-# Configuration
-eeprom_i2c_addr = 0x50
-eeprom_mem_address = 32
-
-
+#################################
 # Objects and variables
-i2c = I2C(0)
+i2c = I2C(0, freq = 400000)
 
+eeprom = EEPROM_24xx64(i2c, 0x50)
 
-def write_byte(i2cAddr, addr, val):
-    ba = bytearray(1)
-    ba[0] = val
+#################################
+# Program
 
-    res = i2c.writeto_mem(i2cAddr, addr, ba, addrsize = 16)
-    sleep_ms(5) # Needed due to EEPROM write timing
+print("EEPROM 24LC64 via I2C H/W 0 test program,\n")
 
-    return res
+ssid = ""
+password = ""
 
-def read_byte(i2cAddr, addr):
-    val = i2c.readfrom_mem(i2cAddr, addr, 1, addrsize = 16)
-    return val[0]
+#eeprom.write_string(1, ssid)
+#eeprom.write_string(100, password)
 
-print("EEPROM test program\n")
-
-write_byte(eeprom_i2c_addr, eeprom_mem_address, 80)
-
-value = read_byte(eeprom_i2c_addr, eeprom_mem_address)
-print(value)
-print("%d: %02d/0x%02x" % (eeprom_mem_address, value, value))
-
-
-# Kører i2c scanner funktionen
-#--------------------------------------
-
-# while True:
-#     i2c_scanner(i2c)
-
-#--------------------------------------
-
-
+string = eeprom.read_string(1)
+string2 = eeprom.read_string(100)
+print(string)
+print(string2)
