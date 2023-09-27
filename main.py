@@ -1,26 +1,45 @@
-from machine import I2C, Pin, SoftI2C
-from time import sleep
+from machine import I2C
+from time import sleep_ms
+# from device_scanner import i2c_scanner # Hjemmelavet bibliotek
 
+
+# Configuration
+eeprom_i2c_addr = 0x50
+eeprom_mem_address = 32
+
+
+# Objects and variables
 i2c = I2C(0)
 
-print("Running I2C scanner\n")
+
+def write_byte(i2cAddr, addr, val):
+    ba = bytearray(1)
+    ba[0] = val
+
+    res = i2c.writeto_mem(i2cAddr, addr, ba, addrsize = 16)
+    sleep_ms(5) # Needed due to EEPROM write timing
+
+    return res
+
+def read_byte(i2cAddr, addr):
+    val = i2c.readfrom_mem(i2cAddr, addr, 1, addrsize = 16)
+    return val[0]
+
+print("EEPROM test program\n")
+
+write_byte(eeprom_i2c_addr, eeprom_mem_address, 80)
+
+value = read_byte(eeprom_i2c_addr, eeprom_mem_address)
+print(value)
+print("%d: %02d/0x%02x" % (eeprom_mem_address, value, value))
 
 
-def i2c_scanner():
-    # Scan for connected devices
-    devices_identified = i2c.scan()
+# Kører i2c scanner funktionen
+#--------------------------------------
 
-    #print the result
-    devices_count = len(devices_identified)
-    print("Total number of devides: %d" % devices_count)
+# while True:
+#     i2c_scanner(i2c)
 
-    if devices_count == 112:
-        print("Looks like the I2C bus pull-up resistors are missing")
-    else:
-        for i in range(devices_count):
-            print("Device found at address: 0x%02X" % devices_identified[i])
-    print()
-    sleep(1)
+#--------------------------------------
 
-while True:
-    i2c_scanner()
+
