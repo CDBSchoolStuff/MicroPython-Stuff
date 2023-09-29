@@ -24,8 +24,8 @@ def Print_LCD():
     lcd.putstr("Lektion 4:")    
     lcd.move_to(0, 2)
     lcd.putstr("Potentiometer ADC")
-    #lcd.move_to(0, 3)
-    #lcd.putstr("Something!")
+    lcd.move_to(0, 3)
+    lcd.putstr("- Del 2")
 
 Print_LCD()
 
