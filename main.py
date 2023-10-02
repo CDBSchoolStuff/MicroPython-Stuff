@@ -6,7 +6,7 @@ import math
 # Initialiserer ADC objekt på pin 34
 pot = ADC(Pin(34, Pin.IN), atten=3) # atten 3 = 11db attenuation (150mV - 2450mV)
 pot.atten(ADC.ATTN_11DB) # 11db attenuation (150mV - 2450mV)
-pot.width(ADC.WIDTH_12BIT) # Bestemmer opløsningen i bits 12 (111111111111 = 4096)
+#pot.width(ADC.WIDTH_12BIT) # Bestemmer opløsningen i bits 12 (111111111111 = 4096)
 
 # Instantierer Pin object til at styre led1
 # led1 = Pin(26, Pin.OUT, value=0) # Instantierer Pin object til at styre led1
@@ -23,6 +23,12 @@ neopixel = NeoPixel(Pin(PIXEL_PIN, Pin.OUT), PIXEL_NUMBER) # create NeoPixel ins
 # parameter som skal være tiden der skal gå mellem hver pixel der tændes i
 # ringen. Tiden skal styres ved at dreje på potentiometeret. 
 
+#--------- Øvelse 2 | Del 3 ---------
+# Prøv de andre ADC.WIDTH_ værdier 9BIT 10BIT og 11BIT og kør skriv
+# kommentarer i koden hvor der foklares hvad de gør.
+
+# Svar: BIT værdien i ADC.WIDTH_"X"BIT bestemmer opløsningen af målingerne. Og dermed også det højest målte tal som vil blive registreret i koden. 
+# I vores kode her, vil en lavere BIT værdi få animationen til at spille hurtigere, da den maksimale værdi er lavere (511)
 
 # Funktion som er ansvarlig for at sætte alle pixels farve på en gang.
 # Funktionen modtager 3 argumenter; red, green, blue. Disse henviser til en RGB farvekode.
