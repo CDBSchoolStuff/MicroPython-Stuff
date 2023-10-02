@@ -6,7 +6,7 @@ import math
 # Initialiserer ADC objekt på pin 34
 pot = ADC(Pin(34, Pin.IN), atten=3) # atten 3 = 11db attenuation (150mV - 2450mV)
 pot.atten(ADC.ATTN_11DB) # 11db attenuation (150mV - 2450mV)
-#pot.width(ADC.WIDTH_12BIT) # Bestemmer opløsningen i bits 12 (111111111111 = 4096)
+pot.width(ADC.WIDTH_12BIT) # Bestemmer opløsningen i bits 12 (111111111111 = 4096)
 
 # Instantierer Pin object til at styre led1
 # led1 = Pin(26, Pin.OUT, value=0) # Instantierer Pin object til at styre led1
