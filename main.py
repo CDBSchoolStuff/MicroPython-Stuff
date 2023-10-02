@@ -28,7 +28,7 @@ neopixel = NeoPixel(Pin(PIXEL_PIN, Pin.OUT), PIXEL_NUMBER) # create NeoPixel ins
 # kommentarer i koden hvor der foklares hvad de gør.
 
 # Svar: BIT værdien i ADC.WIDTH_"X"BIT bestemmer opløsningen af målingerne. Og dermed også det højest målte tal som vil blive registreret i koden. 
-# I vores kode her, vil en lavere BIT værdi få animationen til at spille hurtigere, da den maksimale værdi er lavere (511)
+# I vores kode her, vil en lavere BIT værdi få animationen til at spille væsentligt hurtigere, da den maksimale værdi er lavere (511), hvilket styrer hvor ofte for loopet kører.
 
 # Funktion som er ansvarlig for at sætte alle pixels farve på en gang.
 # Funktionen modtager 3 argumenter; red, green, blue. Disse henviser til en RGB farvekode.
