@@ -23,9 +23,9 @@ def Print_LCD():
     lcd.move_to(0, 1)
     lcd.putstr("Lektion 4:")    
     lcd.move_to(0, 2)
-    lcd.putstr("Potentiometer ADC")
+    lcd.putstr("UDP-Kravspecifikation")
     lcd.move_to(0, 3)
-    lcd.putstr("- Del 2 & 3")
+    lcd.putstr("")
 
 Print_LCD()
 
@@ -33,9 +33,9 @@ Print_LCD()
 # Ukommenter, hvis der arbejdes med MQTT
 # --------------------------------------
 
-# import sys # Ukommenter, hvis der arbejdes med MQTT
+import sys # Ukommenter, hvis der arbejdes med MQTT
 
-# sys.path.reverse()
-# print("\n\n\nESP32 starter op")
+sys.path.reverse()
+print("\n\n\nESP32 starter op")
 
 # --------------------------------------
