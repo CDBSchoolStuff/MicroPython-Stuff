@@ -36,5 +36,5 @@ credentials = {
     'ADAFRUIT_IO_URL' : b'io.adafruit.com',
     'ADAFRUIT_USERNAME' : username,
     'ADAFRUIT_IO_KEY' : key,
-    'ADAFRUIT_IO_FEEDNAME' : b'ESP32feed'
+    'ADAFRUIT_IO_FEEDNAME' : b'mapfeed'
     }

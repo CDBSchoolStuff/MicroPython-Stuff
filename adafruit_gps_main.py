@@ -27,32 +27,37 @@ def get_adafruit_gps():
             return False
     else:
         return False
+
+
+
 # Her kan i placere globale varibaler, og instanser af klasser
 
-while True:
-    try:
-        # Hvis funktionen returnere en string er den True ellers returnere den False
-        gps_data = get_adafruit_gps()
-        if gps_data: # hvis der er korrekt data så send til adafruit
-            print(f'\ngps_data er: {gps_data}')
-            mqtt.web_print(gps_data, 'KEA_ITTEK/feeds/mapfeed/csv')                
-        #For at sende beskeder til andre feeds kan det gøres sådan:
-        # mqtt.web_print("Besked til anden feed", DIT_ADAFRUIT_USERNAME/feeds/DIT_ANDET_FEED_NAVN/ )
-        #Indsæt eget username og feednavn til så det svarer til dit eget username og feed du har oprettet
+def adafruit_gps_thread():
+    while True:
+        try:
+            # Hvis funktionen returnere en string er den True ellers returnere den False
+            gps_data = get_adafruit_gps()
+            if gps_data: # hvis der er korrekt data så send til adafruit
+                print(f'\ngps_data er: {gps_data}')
+                mqtt.web_print(gps_data, 'chbo0003/feeds/mapfeed/csv') 
 
-        #For at vise lokationsdata på adafruit dashboard skal det sendes til feed med /csv til sidst
-        #For at sende til GPS lokationsdata til et feed kaldet mapfeed kan det gøres således:
-        #mqtt.web_print(gps_data, 'DIT_ADAFRUIT_USERNAME/feeds/mapfeed/csv')        
-        sleep(4) # vent mere end 3 sekunder mellem hver besked der sendes til adafruit
-        
-        #mqtt.web_print("test1") # Hvis der ikke angives et 2. argument vil default feed være det fra credentials filen      
-        #sleep(4)  # vent mere end 3 sekunder mellem hver besked der sendes til adafruit
-        if len(mqtt.besked) != 0: # Her nulstilles indkommende beskeder
-            mqtt.besked = ""            
-        mqtt.sync_with_adafruitIO() # igangsæt at sende og modtage data med Adafruit IO             
-        print(".", end = '') # printer et punktum til shell, uden et enter        
-    # Stopper programmet når der trykkes Ctrl + c
-    except KeyboardInterrupt:
-        print('Ctrl-C pressed...exiting')
-        mqtt.c.disconnect()
-        mqtt.sys.exit()
+            #For at sende beskeder til andre feeds kan det gøres sådan:
+            # mqtt.web_print("Besked til anden feed", DIT_ADAFRUIT_USERNAME/feeds/DIT_ANDET_FEED_NAVN/ )
+            #Indsæt eget username og feednavn til så det svarer til dit eget username og feed du har oprettet
+
+            #For at vise lokationsdata på adafruit dashboard skal det sendes til feed med /csv til sidst
+            #For at sende til GPS lokationsdata til et feed kaldet mapfeed kan det gøres således:
+            #mqtt.web_print(gps_data, 'DIT_ADAFRUIT_USERNAME/feeds/mapfeed/csv')        
+            sleep(8) # vent mere end 3 sekunder mellem hver besked der sendes til adafruit
+            
+            #mqtt.web_print("test1") # Hvis der ikke angives et 2. argument vil default feed være det fra credentials filen      
+            #sleep(4)  # vent mere end 3 sekunder mellem hver besked der sendes til adafruit
+            if len(mqtt.besked) != 0: # Her nulstilles indkommende beskeder
+                mqtt.besked = ""            
+            mqtt.sync_with_adafruitIO() # igangsæt at sende og modtage data med Adafruit IO             
+            print(".", end = '') # printer et punktum til shell, uden et enter        
+        # Stopper programmet når der trykkes Ctrl + c
+        except KeyboardInterrupt:
+            print('Ctrl-C pressed...exiting')
+            mqtt.c.disconnect()
+            mqtt.sys.exit()
