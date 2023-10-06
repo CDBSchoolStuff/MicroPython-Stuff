@@ -1,2 +1,2 @@
 # Eksekverer en python fil.
-execfile("main_gps_mini.py")
+execfile("adafruit_gps_main.py")

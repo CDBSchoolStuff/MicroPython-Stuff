@@ -6,11 +6,10 @@ import os
 import _thread
 from time import sleep
 from time import ticks_ms
-print("Forbinder til internettet...")
-
 
 def sync_with_adafruitIO(): 
     # haandtere fejl i forbindelsen og hvor ofte den skal forbinde igen
+    do_connect()
     if c.is_conn_issue():
         while c.is_conn_issue():
             # hvis der forbindes returnere is_conn_issue metoden ingen fejlmeddelse
@@ -36,22 +35,28 @@ ap_if.active(False)
 
 # connect the device to the WiFi network
 wifi = network.WLAN(network.STA_IF)
-if (wifi.isconnected()):
+if wifi.isconnected():
     wifi.disconnect()#Fixer WiFi OS fejl!
 wifi.active(True)
-wifi.connect(WIFI_SSID, WIFI_PASSWORD)
 
-# wait until the device is connected to the WiFi network
-MAX_ATTEMPTS = 20
-attempt_count = 0
-while not wifi.isconnected() and attempt_count < MAX_ATTEMPTS:
-    attempt_count += 1
-    utime.sleep(1)
+def do_connect():
+    if not wifi.isconnected(): 
+        print("Forbinder til wifi...")
+        wifi.connect(WIFI_SSID, WIFI_PASSWORD)
+        # wait until the device is connected to the WiFi network
+        MAX_ATTEMPTS = 20
+        attempt_count = 0
+        while not wifi.isconnected() and attempt_count < MAX_ATTEMPTS:
+            attempt_count += 1
+            
+            utime.sleep(1)
 
-if attempt_count == MAX_ATTEMPTS:
-    print('Kunne ikke forbinde til WiFi')
-    sys.exit()
-    
+        if attempt_count == MAX_ATTEMPTS:
+            print('Kunne ikke forbinde til WiFi')
+            sys.exit()
+
+do_connect()        
+
 besked = ""
 
 def sub_cb(topic, msg, retained, duplicate):
@@ -115,7 +120,3 @@ def web_print(text_in, feed = mqtt_feedname):
 if not c.connect(clean_session=False):
     print("Forbinder til Adafruit IO, med klient ID: ",random_num)
     c.subscribe(mqtt_feedname)
-    
-# if not c.connect(clean_session=True):
-#     print("Forbundet!")
-

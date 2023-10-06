@@ -21,11 +21,11 @@ def Print_LCD():
     lcd.clear()
     lcd.putstr("Programmering -")
     lcd.move_to(0, 1)
-    lcd.putstr("Lektion 4:")    
+    lcd.putstr("Lektion 5:")    
     lcd.move_to(0, 2)
-    lcd.putstr("Simpel GPS -")
+    lcd.putstr("Adafuit GPS og map")
     lcd.move_to(0, 3)
-    lcd.putstr("Oevelse 2")
+    lcd.putstr("(Oevelse 3)")
 
 Print_LCD()
 
