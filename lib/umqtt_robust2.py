@@ -1,5 +1,5 @@
 import utime
-from umqtt_robust2 import MQTTClient
+from umqtt.robust2 import MQTTClient
 import sys
 import network
 import os
