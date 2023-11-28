@@ -21,6 +21,7 @@ led_green_percentage = 0
 led_blue_freq = 60
 led_blue_percent = 0
 
+
 ##################################################################
 # OBJECTS
 
@@ -41,6 +42,7 @@ def percentage_to_duty(percent):
 
 ##################################################################
 # PROGRAM
+
 while True:
     LED_RED.freq(led_red_freq)
     LED_RED.duty(percentage_to_duty(led_red_percentage))
@@ -52,3 +54,4 @@ while True:
     LED_BLUE.duty(percentage_to_duty(led_blue_percent))
     
     sleep(1)
+    
