@@ -8,9 +8,6 @@ from time import sleep
 PIN_OUT = 32
 pOut = Pin(PIN_OUT, Pin.OUT)
 
-PIN_IN = 34
-pIn = Pin(PIN_IN, Pin.IN)
-
 ##################################################################
 # OBJECTS
 
@@ -24,12 +21,10 @@ pIn = Pin(PIN_IN, Pin.IN)
 # PROGRAM
 
 while True:
-    print("PIn = ", pOut.value())
+    pOut.value(1)
     
-    if pIn.value() == 1:
-        pOut.value(1)
+    sleep(2)
     
-    else:
-        pOut.value(0)
-
-    sleep(1)
+    pOut.value(0)
+    
+    sleep(2)
