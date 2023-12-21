@@ -1,2 +1,3 @@
 # Eksekverer en python fil.
-# execfile("oevelse1.py")
+# execfile("1.1.py")
+

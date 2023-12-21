@@ -2,6 +2,15 @@ from machine import Pin, PWM
 from gpio_lcd import GpioLcd
 
 #########################################################################
+# FILES TO EXECUTE ON BOOT
+
+# Eksekverer en python fil.
+execfile("1.py")
+
+
+
+
+#########################################################################
 # LCD KONTRAST CONFIGURATION
 
 pin_lcd_contrast = 23
@@ -21,21 +30,12 @@ def Print_LCD():
     lcd.clear()
     lcd.putstr("Programmering -")
     lcd.move_to(0, 1)
-    lcd.putstr("Lektion X:")    
+    lcd.putstr("Lektion 11:")    
     lcd.move_to(0, 2)
-    lcd.putstr("Emne")
+    lcd.putstr("Wifi og API")
     #lcd.move_to(0, 3)
     #lcd.putstr("Something!")
 
 Print_LCD()
 
 
-# Ukommenter, hvis der arbejdes med MQTT
-# --------------------------------------
-
-# import sys # Ukommenter, hvis der arbejdes med MQTT
-
-# sys.path.reverse()
-# print("\n\n\nESP32 starter op")
-
-# --------------------------------------
