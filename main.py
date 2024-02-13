@@ -360,7 +360,9 @@ while True:
     # Send only if there is a change since last time!
     # mac_addr_bstring = get_mac_addr_bstring(0)  # Replace with receiver index 
     # en.esp_now_send_message(mac_addr_bstring, "The message")
-
+    if pb4_val == 0:
+        en.esp_now_send_message(en.MAC_ADDR_BROADCAST, MY_NAME + ": LED4 ON")
+        sleep(1)
     
     # Check USB port for commands
     usb_scan_and_parse()
