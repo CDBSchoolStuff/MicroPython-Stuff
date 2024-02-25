@@ -22,6 +22,8 @@ pin_sensor = 32                        # The sensor digital GPIO input pin
 
 # Battery
 pin_battery = 34                       # The battery measurement input pin, ADC1_6
+max_bat_voltage = 4.2
+min_bat_voltage = 3.0
 
 ########################################
 # OBJECTS
@@ -44,10 +46,19 @@ battery = ADC_substitute(pin_battery)  # The battery object
 prev_sensor_value = -999               # The previous value from the sensor
 prev_bat_pct = -1                      # The previous battery percentage value
 
+
 ########################################
 # FUNCTIONS
+
 def get_battery_percentage():          # The battery voltage percentage
-    return 24                          # Replace with own math. Use function in adc_sub.py
+    
+    # Beregn procentdelen af batteriets opladning
+    percentage = ((battery.read_voltage() - min_bat_voltage) / (max_bat_voltage - min_bat_voltage)) * 100
+    
+    # Sørg for, at procentdelen er inden for intervallet 0% til 100%
+    percentage = max(0, min(100, percentage))
+
+    return percentage                          # Replace with own math. Use function in adc_sub.py
                                        # Make the result an integer value, and avoid neg. and above 100% values
 
 ########################################
@@ -81,3 +92,4 @@ while True:
         # Update the previous values for use next time
         prev_bat_pct = bat_pct
         prev_sensor_value = sensor_value
+
