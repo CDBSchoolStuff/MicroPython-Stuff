@@ -81,7 +81,7 @@ while True:
 
     # Send data if there is a change (this principle saves power)
     if bat_pct != prev_bat_pct or sensor_value != prev_sensor_value:
-        data_string = str(time.ticks_ms()) + '|' + str(bat_pct) + '|' + str(sensor_value) # The data to send. CHANGE IT!
+        data_string = sensor_id + '|' + str(time.ticks_ms()) + '|' + str(bat_pct) + '|' + str(sensor_value) # The data to send. CHANGE IT! (Added the "sensor_id")
         
         print("Sending: " + data_string)
         try:
