@@ -7,7 +7,6 @@ import espnow
 
 from machine import Pin
 import time
-from time import ticks_ms, sleep
 
 ########################################
 # OWN MODULES
@@ -37,7 +36,7 @@ en.active(True)                        # Make ESP-NOW active
 
 # Sensor
 sensor = Pin(pin_sensor, Pin.IN)
-    
+
 # Battery
 battery = ADC_substitute(pin_battery)  # The battery object
 
@@ -93,7 +92,7 @@ def calculate_average_battery(window_size, bat_percentage):
 ########################################
 # PROGRAM
 
-battery_status_start = ticks_ms()
+battery_status_start = time.ticks_ms()
 battery_status_period_ms = 1000 # 1000ms = 1s
 
 # INITIALIZATION
@@ -107,8 +106,8 @@ print(sensor_id + " ready")
 while True:
     # Measure the battery percentage.
     # Using ticks_ms to prevent battery changes from spamming too many messages.
-    if ticks_ms() - battery_status_start > battery_status_period_ms:
-        battery_status_start = ticks_ms()
+    if time.ticks_ms() - battery_status_start > battery_status_period_ms:
+        battery_status_start = time.ticks_ms()
         
         bat_pct = calculate_average_battery(20, get_battery_percentage())
     
