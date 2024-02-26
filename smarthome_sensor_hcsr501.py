@@ -7,6 +7,7 @@ import espnow
 
 from machine import Pin
 import time
+from time import ticks_ms, sleep
 
 ########################################
 # OWN MODULES
@@ -44,16 +45,34 @@ battery = ADC_substitute(pin_battery)  # The battery object
 # VARIABLES
 # Previous values
 prev_sensor_value = -999               # The previous value from the sensor
+bat_pct = None
 prev_bat_pct = -1                      # The previous battery percentage value
+buffer = []                            # Opret en tom buffer
 
+
+# Resistors
+resistor1 = 4.70
+resistor2 = 4.70
+max_spaendingsdeler_voltage_measurement = 2.07   # Ikke brugt, bare til egen info. Målt ved 4.2V input med 2x 4.7k modstande.
 
 ########################################
 # FUNCTIONS
 
+# Beregner den teoretiske maksimale spænding for spændingsdeleren.
+def calc_spaendingsdeler(U, R1, R2):
+    U_out = (U * R2) / (R1 + R2)
+    return U_out
+
+max_spaendingsdeler_voltage = calc_spaendingsdeler(max_bat_voltage, resistor1, resistor2)
+min_spaendingsdeler_voltage = calc_spaendingsdeler(min_bat_voltage, resistor1, resistor2)
+
+print(f"Spaendingsdeler Max Voltage: {max_spaendingsdeler_voltage}")
+print(f"Spaendingsdeler Min Voltage: {min_spaendingsdeler_voltage}")
+
 def get_battery_percentage():          # The battery voltage percentage
     
     # Beregn procentdelen af batteriets opladning
-    percentage = ((battery.read_voltage() - min_bat_voltage) / (max_bat_voltage - min_bat_voltage)) * 100
+    percentage = ((battery.read_voltage() - min_spaendingsdeler_voltage) / (max_spaendingsdeler_voltage - min_spaendingsdeler_voltage)) * 100
     
     # Sørg for, at procentdelen er inden for intervallet 0% til 100%
     percentage = max(0, min(100, percentage))
@@ -61,8 +80,21 @@ def get_battery_percentage():          # The battery voltage percentage
     return percentage                          # Replace with own math. Use function in adc_sub.py
                                        # Make the result an integer value, and avoid neg. and above 100% values
 
+def calculate_average_battery(window_size, bat_percentage):
+    buffer.append(bat_percentage)
+
+    if len(buffer) > window_size:
+        buffer.pop(0)  # Fjern ældste værdi, hvis bufferen er fyldt
+
+    if not buffer:
+        return 0  # Returner 0, hvis bufferen er tom
+    return int(sum(buffer) / len(buffer))
+
 ########################################
 # PROGRAM
+
+battery_status_start = ticks_ms()
+battery_status_period_ms = 1000 # 1000ms = 1s
 
 # INITIALIZATION
 # ESP-NOW
@@ -73,8 +105,12 @@ print(sensor_id + " ready")
 
 # MAIN (super loop)
 while True:
-    # Measure the battery percentage
-    bat_pct = get_battery_percentage()
+    # Measure the battery percentage.
+    # Using ticks_ms to prevent battery changes from spamming too many messages.
+    if ticks_ms() - battery_status_start > battery_status_period_ms:
+        battery_status_start = ticks_ms()
+        
+        bat_pct = calculate_average_battery(20, get_battery_percentage())
     
     # Check the sensor
     sensor_value = sensor.value()
